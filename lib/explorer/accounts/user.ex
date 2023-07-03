@@ -4,12 +4,12 @@ defmodule Explorer.Accounts.User do
   import Ecto.Changeset
 
   alias __MODULE__
-  alias Explorer.Contributions
+  alias Explorer.Contributions.Contribution
 
   schema "users" do
     field(:eth_address, :string)
 
-    has_many(:contributions, Contributions.Schema)
+    has_many(:contributions, Contribution)
 
     timestamps()
   end

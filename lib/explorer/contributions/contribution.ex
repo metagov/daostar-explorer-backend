@@ -1,4 +1,4 @@
-defmodule Explorer.Contributions.Schema do
+defmodule Explorer.Contributions.Contribution do
   use Ecto.Schema
 
   import Ecto.Changeset
@@ -29,8 +29,8 @@ defmodule Explorer.Contributions.Schema do
   end
 
   @doc false
-  def changeset(%Schema{} = schema, attrs) do
-    schema
+  def changeset(%Contribution{} = contribution, attrs) do
+    contribution
     |> cast(attrs, [
       :version,
       :issuer,
@@ -43,7 +43,8 @@ defmodule Explorer.Contributions.Schema do
       :contributors,
       :contributor_signatures,
       :metadata,
-      :metadata_uri
+      :metadata_uri,
+      :user_id
     ])
     |> validate_required([
       :issuer,
@@ -55,7 +56,8 @@ defmodule Explorer.Contributions.Schema do
       :category,
       :version,
       :contributors,
-      :contributor_signatures
+      :contributor_signatures,
+      :user_id
     ])
     |> unique_constraint([:issuer_uid, :issuer])
   end
