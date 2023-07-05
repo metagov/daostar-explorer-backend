@@ -23,11 +23,8 @@ config :explorer, ExplorerWeb.Endpoint,
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "jpa27eoy+fgYGqpe8jQd0IFFTx8dx8fBdi3arZ6U2aII4Rf6r06ch6M/WLSOPEEl",
-  watchers: [
-    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
-    tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
-  ]
+  secret_key_base: "/Zvp035ane789doStv2SXR/fGcjgolvf8ZsoQ/JZVEh37HJza2xG0GRqPpPZ7inN",
+  watchers: []
 
 # ## SSL Support
 #
@@ -52,16 +49,6 @@ config :explorer, ExplorerWeb.Endpoint,
 # configured to run both http and https servers on
 # different ports.
 
-# Watch static and templates for browser reloading.
-config :explorer, ExplorerWeb.Endpoint,
-  live_reload: [
-    patterns: [
-      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
-      ~r"priv/gettext/.*(po)$",
-      ~r"lib/explorer_web/(controllers|live|components)/.*(ex|heex)$"
-    ]
-  ]
-
 # Enable dev routes for dashboard and mailbox
 config :explorer, dev_routes: true
 
@@ -74,6 +61,3 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
-
-# Disable swoosh api client as it is only required for production adapters.
-config :swoosh, :api_client, false

@@ -14,8 +14,6 @@ defmodule Explorer.Application do
       Explorer.Repo,
       # Start the PubSub system
       {Phoenix.PubSub, name: Explorer.PubSub},
-      # Start Finch
-      {Finch, name: Explorer.Finch},
       # Start the Endpoint (http/https)
       ExplorerWeb.Endpoint
       # Start a worker by calling: Explorer.Worker.start_link(arg)

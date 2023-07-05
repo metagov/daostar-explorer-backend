@@ -1,11 +1,14 @@
 defmodule ExplorerWeb.ContributionController do
   use ExplorerWeb, :controller
 
-  alias Explorer.Contributions
+  alias Explorer.Services.FetchContributions
+
+  action_fallback(ExplorerWeb.FallbackController)
 
   def index(conn, params) do
-    contributions = Contributions.get_contributions(params["eth_address"])
-
-    render(conn, :index, contributions: contributions)
+    with {:ok, contributions} <-
+           FetchContributions.perform(params["eth_address"]) |> IO.inspect(label: "fetch") do
+      render(conn, :index, contributions: contributions)
+    end
   end
 end

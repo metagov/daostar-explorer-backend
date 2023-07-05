@@ -17,6 +17,7 @@ defmodule ExplorerWeb.ContributionJSON do
 
   defp data(%Contribution{} = contribution) do
     %{
+      id: contribution.id,
       issuer: contribution.issuer,
       issuer_uid: contribution.issuer_uid,
       issuer_uri: contribution.issuer_uri,

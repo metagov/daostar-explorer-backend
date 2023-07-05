@@ -17,14 +17,8 @@ config :explorer, Explorer.Repo,
 # you can enable the server option below.
 config :explorer, ExplorerWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
-  secret_key_base: "LAl16rwTARKVhXwTiiAQQp1ptdCULfhvSQPyLOSnC9TWJ/actZwDUBsqAqz4k9FX",
+  secret_key_base: "tnUopc+RVV3R83EfIiookAezthucqqYv3ZKxdP7/xNMgPHX+3H0KfQhk/1zq1sY7",
   server: false
-
-# In test we don't send emails.
-config :explorer, Explorer.Mailer, adapter: Swoosh.Adapters.Test
-
-# Disable swoosh api client as it is only required for production adapters.
-config :swoosh, :api_client, false
 
 # Print only warnings and errors during test
 config :logger, level: :warning

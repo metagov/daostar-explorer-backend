@@ -7,7 +7,7 @@ defmodule Explorer.Contributions.Fetcher do
 
   def perform(eth_address) do
     with {:ok, user} <- get_or_create_user(eth_address),
-         {:ok, contributions} <- fetch_contributions(user) do
+         contributions <- fetch_contributions(user) do
       {:ok, contributions}
     end
   end
