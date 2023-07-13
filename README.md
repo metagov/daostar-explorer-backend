@@ -1,18 +1,36 @@
-# Explorer
+# DAOStar DAOIP-3 Explorer
 
-To start your Phoenix server:
+DAOIP-3 defines a standard for contribution and attestations in DAOs and web3
+communities. You can read about the standard [here][daoip-3].
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+This is the backend for an explorer application which allows you to view and
+navigate through any address to see the contributions they've done.
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+## Development
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+First clone the repo and run the setup:
 
-## Learn more
+```sh
+$ git clone git@github.com:metagov/daostar-explorer-backend.git
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+$ cd daostar-explorer-backend
+```
+
+This repo makes use of (and it's highly recommend using) [`asdf`][asdf-vm] to manage language and tool versions.
+
+Make sure you have it installed and then run the setup:
+
+```sh
+$ bin/setup
+```
+
+To start the development server:
+
+```sh
+$ bin/server
+```
+
+That's it! You're ready to go.
+
+[asdf-vm]: https://asdf-vm.com/
+[daoip-3]: https://github.com/metagov/daostar/blob/main/DAOIPs/daoip-3.md
