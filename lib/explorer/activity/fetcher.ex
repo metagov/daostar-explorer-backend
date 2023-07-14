@@ -1,6 +1,6 @@
-defmodule Explorer.Contributions.Fetcher do
+defmodule Explorer.Activity.Fetcher do
   @supported_providers [
-    Explorer.Contributions.Fetcher.Govrn
+    Explorer.Activity.Fetcher.Govrn
   ]
 
   alias Explorer.Accounts

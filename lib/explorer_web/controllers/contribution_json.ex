@@ -1,5 +1,5 @@
 defmodule ExplorerWeb.ContributionJSON do
-  alias Explorer.Contributions.Contribution
+  alias Explorer.Activity.Contribution
 
   @doc """
   Renders a list of contributions.

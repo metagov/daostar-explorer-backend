@@ -1,9 +1,9 @@
-defmodule Explorer.Contributions do
+defmodule Explorer.Activity do
   import Ecto.Query
   import Explorer.Storage
 
-  alias Explorer.Contributions.Fetcher
-  alias Explorer.Contributions.Contribution
+  alias Explorer.Activity.Fetcher
+  alias Explorer.Activity.Contribution
   alias Explorer.Repo
 
   def fetch_contributions(eth_address) do

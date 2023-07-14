@@ -1,4 +1,4 @@
-defmodule Explorer.Contributions.Contribution do
+defmodule Explorer.Activity.Contribution do
   use Ecto.Schema
 
   import Ecto.Changeset

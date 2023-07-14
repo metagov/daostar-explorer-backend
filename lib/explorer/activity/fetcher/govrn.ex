@@ -1,4 +1,4 @@
-defmodule Explorer.Contributions.Fetcher.Govrn do
+defmodule Explorer.Activity.Fetcher.Govrn do
   @issuer "govrn"
   @issuer_uri "https://govrn.app"
 
@@ -9,8 +9,8 @@ defmodule Explorer.Contributions.Fetcher.Govrn do
   plug(Tesla.Middleware.BaseUrl, @endpoint)
   plug(Tesla.Middleware.JSON)
 
-  alias Explorer.Contributions
-  alias Explorer.Contributions.Fetcher.Govrn
+  alias Explorer.Activity
+  alias Explorer.Activity.Fetcher.Govrn
   alias Explorer.Crypto.IPFS
   alias Explorer.Result
   alias Explorer.Utils
@@ -49,7 +49,7 @@ defmodule Explorer.Contributions.Fetcher.Govrn do
   defp reject_existing(contributions) do
     contributions =
       Enum.reject(contributions, fn contribution ->
-        case Contributions.get_contribution(contribution.issuer, contribution.issuer_uid) do
+        case Activity.get_contribution(contribution.issuer, contribution.issuer_uid) do
           {:ok, _} -> true
           {:error, :not_found} -> false
         end
@@ -83,7 +83,7 @@ defmodule Explorer.Contributions.Fetcher.Govrn do
   defp save_new(contributions) do
     Utils.Enum.map_reject(
       contributions,
-      &Contributions.create_contribution/1,
+      &Activity.create_contribution/1,
       &Result.error?/1
     )
     |> Utils.Enum.reduce_results()

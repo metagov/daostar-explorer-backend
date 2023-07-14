@@ -1,4 +1,4 @@
-defmodule Explorer.Contributions.Fetcher.Govrn.Schema.V1 do
+defmodule Explorer.Activity.Fetcher.Govrn.Schema.V1 do
   @version "1"
 
   def parse(contribution, metadata) do

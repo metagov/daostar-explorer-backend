@@ -4,7 +4,7 @@ defmodule Explorer.Accounts.User do
   import Ecto.Changeset
 
   alias __MODULE__
-  alias Explorer.Contributions.Contribution
+  alias Explorer.Activity.Contribution
 
   schema "users" do
     field(:eth_address, :string)
