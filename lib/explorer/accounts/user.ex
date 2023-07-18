@@ -7,9 +7,9 @@ defmodule Explorer.Accounts.User do
   alias Explorer.Activity.Contribution
 
   schema "users" do
-    field(:eth_address, :string)
+    field :eth_address, :string
 
-    has_many(:contributions, Contribution)
+    has_many :contributions, Contribution
 
     timestamps()
   end

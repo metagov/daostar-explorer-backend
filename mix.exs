@@ -33,6 +33,7 @@ defmodule Explorer.MixProject do
       {:phoenix_ecto, "~> 4.4"},
       {:plug_cowboy, "~> 2.5"},
       {:postgrex, ">= 0.0.0"},
+      {:rustler, "~> 0.29.1"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:tesla, "~> 1.4"}

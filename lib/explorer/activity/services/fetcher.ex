@@ -1,6 +1,6 @@
 defmodule Explorer.Activity.Fetcher do
   @supported_providers [
-    Explorer.Activity.Fetcher.Govrn
+    Explorer.Crypto.Govrn.Fetcher
   ]
 
   alias Explorer.Accounts

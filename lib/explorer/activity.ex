@@ -35,4 +35,16 @@ defmodule Explorer.Activity do
     |> Contribution.changeset(attrs)
     |> Repo.insert()
   end
+
+  def create_unminted_contribution(attrs) do
+    %Contribution{}
+    |> Contribution.unminted_changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def update_contribution(%Contribution{} = contribution, attrs) do
+    contribution
+    |> Contribution.update_changeset(attrs)
+    |> Repo.update()
+  end
 end

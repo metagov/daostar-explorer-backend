@@ -1,23 +1,7 @@
 defmodule Explorer.Crypto.IPFS do
-  @endpoint "https://ipfs.io/ipfs"
-  @scheme "ipfs://"
+  alias Explorer.Crypto.IPFS.Gateway
+  alias Explorer.Crypto.IPFS.Pinata
 
-  use Tesla
-
-  plug(Tesla.Middleware.BaseUrl, @endpoint)
-  plug(Tesla.Middleware.JSON)
-
-  def get_object(@scheme <> cid) do
-    get_object(cid)
-  end
-
-  def get_object(cid) do
-    case get("/#{cid}") do
-      {:ok, %Tesla.Env{status: 200, body: body}} ->
-        {:ok, body}
-
-      _error ->
-        {:error, :not_found}
-    end
-  end
+  defdelegate get_object(cid), to: Gateway
+  defdelegate pin_object(object), to: Pinata
 end

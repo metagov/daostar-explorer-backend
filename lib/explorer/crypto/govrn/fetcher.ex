@@ -1,16 +1,13 @@
-defmodule Explorer.Activity.Fetcher.Govrn do
-  @issuer "govrn"
-  @issuer_uri "https://govrn.app"
-
+defmodule Explorer.Crypto.Govrn.Fetcher do
   @endpoint "https://voyager-identity-api-staging.govrn.app/api"
 
   use Tesla
 
-  plug(Tesla.Middleware.BaseUrl, @endpoint)
-  plug(Tesla.Middleware.JSON)
+  plug Tesla.Middleware.BaseUrl, @endpoint
+  plug Tesla.Middleware.JSON
 
   alias Explorer.Activity
-  alias Explorer.Activity.Fetcher.Govrn
+  alias Explorer.Crypto.Govrn
   alias Explorer.Crypto.IPFS
   alias Explorer.Result
   alias Explorer.Utils
@@ -35,8 +32,8 @@ defmodule Explorer.Activity.Fetcher.Govrn do
     contributions =
       Enum.map(contributions, fn contribution ->
         %{
-          issuer: @issuer,
-          issuer_uri: @issuer_uri,
+          issuer: Govrn.issuer(),
+          issuer_uri: Govrn.issuer_uri(user),
           issuer_uid: to_string(contribution["id"]),
           metadata_uri: contribution["detailsUri"],
           user_id: user.id
@@ -49,7 +46,10 @@ defmodule Explorer.Activity.Fetcher.Govrn do
   defp reject_existing(contributions) do
     contributions =
       Enum.reject(contributions, fn contribution ->
-        case Activity.get_contribution(contribution.issuer, contribution.issuer_uid) do
+        case Activity.get_contribution(
+               contribution.issuer,
+               contribution.issuer_uid
+             ) do
           {:ok, _} -> true
           {:error, :not_found} -> false
         end
@@ -94,8 +94,14 @@ defmodule Explorer.Activity.Fetcher.Govrn do
       {:ok, %Tesla.Env{status: 200, body: %{"contributions" => []}}} ->
         {:ok, contributions}
 
-      {:ok, %Tesla.Env{status: 200, body: %{"contributions" => new_contributions}}} ->
-        do_fetch(eth_address, contributions ++ new_contributions, page + 1, limit)
+      {:ok,
+       %Tesla.Env{status: 200, body: %{"contributions" => new_contributions}}} ->
+        do_fetch(
+          eth_address,
+          contributions ++ new_contributions,
+          page + 1,
+          limit
+        )
 
       _error ->
         {:error, :not_found}
