@@ -29,7 +29,10 @@ defmodule ExplorerWeb.ContributionJSON do
       contributors: contribution.contributors,
       contributor_signatures: contribution.contributor_signatures,
       metadata: contribution.metadata,
-      metadata_uri: contribution.metadata_uri
+      metadata_uri: contribution.metadata_uri,
+      external: contribution.external,
+      status: contribution.status,
+      tx_hash: contribution.tx_hash
     }
   end
 end

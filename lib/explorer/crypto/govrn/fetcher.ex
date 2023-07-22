@@ -50,7 +50,9 @@ defmodule Explorer.Crypto.Govrn.Fetcher do
                contribution.issuer,
                contribution.issuer_uid
              ) do
-          {:ok, _} -> true
+          {:ok, %{status: :imported}} -> true
+          {:ok, %{status: :minted}} -> true
+          {:ok, _} -> false
           {:error, :not_found} -> false
         end
       end)
@@ -83,7 +85,7 @@ defmodule Explorer.Crypto.Govrn.Fetcher do
   defp save_new(contributions) do
     Utils.Enum.map_reject(
       contributions,
-      &Activity.create_contribution/1,
+      &Activity.create_or_update_contribution(&1, %{status: :minted}),
       &Result.error?/1
     )
     |> Utils.Enum.reduce_results()

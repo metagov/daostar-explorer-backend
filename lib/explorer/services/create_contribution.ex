@@ -7,10 +7,10 @@ defmodule Explorer.Services.CreateContribution do
 
   def perform(params, signature) do
     with {:ok, eth_address} <- recover_address(signature, params),
-         {:ok, user} <- get_user(eth_address),
+         {:ok, user} <- get_or_create_user(eth_address),
          metadata <- build_metadata(params),
          {:ok, metadata_uri} <- pin_metadata(metadata),
-         params <- build_params(params, user, metadata_uri) do
+         params <- build_params(params, user, metadata, metadata_uri) do
       Activity.create_unminted_contribution(params)
     end
   end
@@ -33,8 +33,8 @@ defmodule Explorer.Services.CreateContribution do
     |> Enum.join(",")
   end
 
-  defp get_user(eth_address) do
-    Accounts.get_user(eth_address)
+  defp get_or_create_user(eth_address) do
+    Accounts.get_or_create_user(eth_address)
   end
 
   defp build_metadata(params) do
@@ -48,24 +48,26 @@ defmodule Explorer.Services.CreateContribution do
   end
 
   defp pin_metadata(metadata) do
-    IPFS.pin_object(metadata)
+    with {:ok, %{"IpfsHash" => metadata_uri}} <- IPFS.pin_object(metadata) do
+      {:ok, metadata_uri}
+    end
   end
 
-  defp build_params(metadata, user, metadata_uri) do
+  defp build_params(params, user, metadata, metadata_uri) do
     %{
       issuer: Govrn.issuer(),
       issuer_uri: Govrn.issuer_uri(user),
       version: Govrn.Schema.V2RC1.version(),
       issuer_uid: nil,
-      title: metadata["title"],
-      description: metadata["description"],
-      category: metadata["category"],
-      date_of_engagement: metadata["dateOfEngagement"],
+      title: params["title"],
+      description: params["description"],
+      category: params["category"],
+      date_of_engagement: params["dateOfEngagement"],
       contributors: [],
       contributor_signatures: [],
       metadata_uri: metadata_uri,
       metadata: metadata,
-      external: metadata["external"],
+      external: params["external"],
       tx_hash: nil,
       user_id: user.id
     }

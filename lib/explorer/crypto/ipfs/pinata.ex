@@ -10,7 +10,8 @@ defmodule Explorer.Crypto.IPFS.Pinata do
       {:ok, %Tesla.Env{status: 200, body: body}} ->
         {:ok, body}
 
-      _error ->
+      error ->
+        Explorer.Log.error(__MODULE__, error)
         {:error, :bad_request}
     end
   end
@@ -19,11 +20,11 @@ defmodule Explorer.Crypto.IPFS.Pinata do
     Tesla.client([
       {Tesla.Middleware.BaseUrl, @endpoint},
       Tesla.Middleware.JSON,
-      {Tesla.Middleware.Headers, [{"authorization", token()}]}
+      {Tesla.Middleware.Headers, [{"authorization", "Bearer #{token()}"}]}
     ])
   end
 
   defp token do
-    Env.load(:pinata, :token)
+    Env.load(:pinata, :jwt)
   end
 end

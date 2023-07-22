@@ -22,10 +22,13 @@ defmodule Explorer.Activity do
     |> normalize()
   end
 
-  def get_contributions(eth_address) do
+  def get_contributions(eth_address, opts \\ []) do
+    statuses = opts[:status] || Contribution.statuses()
+
     Contribution
     |> join(:inner, [c], u in assoc(c, :user), as: :u)
     |> where([u: u], u.eth_address == ^eth_address)
+    |> where([c], c.status in ^statuses)
     |> select([c, u: u], c)
     |> Repo.all()
   end
@@ -34,6 +37,18 @@ defmodule Explorer.Activity do
     %Contribution{}
     |> Contribution.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def create_or_update_contribution(attrs, update_attrs) do
+    on_conflict = [set: Enum.into(update_attrs, [])]
+
+    %Contribution{}
+    |> Contribution.changeset(attrs)
+    |> Repo.insert(
+      on_conflict: on_conflict,
+      conflict_target: [:issuer_uid, :issuer],
+      returning: true
+    )
   end
 
   def create_unminted_contribution(attrs) do

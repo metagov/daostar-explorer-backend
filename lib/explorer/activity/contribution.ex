@@ -33,6 +33,8 @@ defmodule Explorer.Activity.Contribution do
     timestamps()
   end
 
+  def statuses, do: @statuses
+
   @doc false
   def changeset(%Contribution{} = contribution, attrs) do
     contribution
@@ -111,5 +113,6 @@ defmodule Explorer.Activity.Contribution do
       :status,
       :tx_hash
     ])
+    |> unique_constraint([:issuer_uid, :issuer])
   end
 end

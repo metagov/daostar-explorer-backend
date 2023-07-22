@@ -20,7 +20,7 @@ defmodule ExplorerWeb.ContributionController do
   def update(conn, params) do
     with {:ok, contribution} <-
            UpdateContribution.perform(
-             params["contribution_id"],
+             params["id"],
              params["contribution"],
              params["signature"]
            ) do

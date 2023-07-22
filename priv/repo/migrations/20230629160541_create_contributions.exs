@@ -4,7 +4,7 @@ defmodule Explorer.Repo.Migrations.CreateContributions do
   def change do
     create table(:contributions) do
       add :issuer, :string, null: false
-      add :issuer_uid, :string, null: false
+      add :issuer_uid, :string
       add :issuer_uri, :string, null: false
       add :version, :string, null: false
       add :title, :string, null: false

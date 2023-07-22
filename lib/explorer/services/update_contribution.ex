@@ -4,11 +4,12 @@ defmodule Explorer.Services.UpdateContribution do
   alias Explorer.Crypto.Ethereum
 
   def perform(contribution_id, params, signature) do
-    with {:ok, eth_address} <- recover_address(signature, contribution_id),
+    with {:ok, eth_address} <-
+           recover_address(signature, contribution_id),
          {:ok, user} <- get_user(eth_address),
          {:ok, contribution} <- get_contribution(contribution_id),
          true <- contribution.user_id == user.id do
-      update_contribution(contribution_id, params)
+      update_contribution(contribution, params)
     else
       false ->
         {:error, :unauthorized}
@@ -19,7 +20,7 @@ defmodule Explorer.Services.UpdateContribution do
   end
 
   defp recover_address(signature, contribution_id) do
-    Ethereum.recover_address(signature, contribution_id)
+    Ethereum.recover_address(signature, to_string(contribution_id))
   end
 
   defp get_user(eth_address) do
@@ -30,26 +31,22 @@ defmodule Explorer.Services.UpdateContribution do
     Activity.get_contribution(contribution_id)
   end
 
-  defp update_contribution(contribution_id, params) do
+  defp update_contribution(contribution, params) do
     # IMPORTANT: Due to time constraints we're consciously assuming that
-    # any input at this point means it's a valid and minted tx.
+    # any input at this point means it's a valid and minting tx.
     #
     # This is not necessarily true:
     # 1. The user input might not be a transaction
-    # 2. The transaction might be in the pool and be dropped
-    # 3. We never check if the transaction was issued by the same user
-    # 4. We assume the user sends us the correct issuer_uid
+    # 2. We never check if the transaction was issued by the same user
+    # 3. We assume the user sends us the correct issuer_uid
     #
     # The solution for this is to:
     # 1. make an API request in this module for the tx hash
     # 2. check if the owner matches the user address
-    # 3. mark this as :minting and add an Oban job
-    #    that runs every 30s and marks the contribution as :minted
-    #    after 12 blocks and updates the issuer_uid field from the tx receipt
-    Activity.update_contribution(contribution_id, %{
+    Activity.update_contribution(contribution, %{
       tx_hash: params["tx_hash"],
       issuer_uid: params["issuer_uid"],
-      status: :minted
+      status: :minting
     })
   end
 end
