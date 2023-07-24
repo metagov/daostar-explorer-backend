@@ -76,7 +76,7 @@ defmodule Explorer.Activity do
     %AggregateReputation{}
     |> AggregateReputation.changeset(attrs)
     |> Repo.insert(
-      on_conflict: :replace_all,
+      on_conflict: {:replace_all_except, [:id, :inserted_at]},
       conflict_target: [:issuer_uid, :issuer],
       returning: true
     )
