@@ -8,6 +8,7 @@ defmodule Explorer.Accounts.User do
 
   schema "users" do
     field :eth_address, :string
+    field :reputable_seller_id, :string
 
     has_many :contributions, Contribution
 
@@ -17,8 +18,9 @@ defmodule Explorer.Accounts.User do
   @doc false
   def changeset(%User{} = user, attrs) do
     user
-    |> cast(attrs, [:eth_address])
+    |> cast(attrs, [:eth_address, :reputable_seller_id])
     |> validate_required([:eth_address])
     |> unique_constraint(:eth_address, downcase: true)
+    |> unique_constraint(:reputable_seller_id, downcase: true)
   end
 end

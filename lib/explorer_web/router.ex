@@ -8,7 +8,7 @@ defmodule ExplorerWeb.Router do
   scope "/", ExplorerWeb do
     pipe_through :api
 
-    get "/:eth_address", ContributionController, :index
+    get "/:eth_address", ActivityController, :index
 
     post "/contributions", ContributionController, :create
     put "/contributions", ContributionController, :update

@@ -2,11 +2,16 @@ defmodule Explorer.Activity do
   import Ecto.Query
   import Explorer.Storage
 
+  alias Explorer.Activity.AggregateReputation
   alias Explorer.Activity.Fetcher
   alias Explorer.Activity.Contribution
   alias Explorer.Repo
 
-  def fetch_contributions(eth_address) do
+  #
+  # Contributions
+  #
+
+  def fetch(eth_address) do
     Fetcher.perform(eth_address)
   end
 
@@ -61,5 +66,27 @@ defmodule Explorer.Activity do
     contribution
     |> Contribution.update_changeset(attrs)
     |> Repo.update()
+  end
+
+  #
+  # Aggregate Reputation
+  #
+
+  def create_or_update_aggregate_reputation(attrs) do
+    %AggregateReputation{}
+    |> AggregateReputation.changeset(attrs)
+    |> Repo.insert(
+      on_conflict: :replace_all,
+      conflict_target: [:issuer_uid, :issuer],
+      returning: true
+    )
+  end
+
+  def get_aggregate_reputation(eth_address) do
+    AggregateReputation
+    |> join(:inner, [ar], u in assoc(ar, :user), as: :u)
+    |> where([u: u], u.eth_address == ^eth_address)
+    |> select([ar, u: u], ar)
+    |> Repo.all()
   end
 end

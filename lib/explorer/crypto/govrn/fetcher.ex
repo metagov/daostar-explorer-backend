@@ -105,7 +105,8 @@ defmodule Explorer.Crypto.Govrn.Fetcher do
           limit
         )
 
-      _error ->
+      error ->
+        Explorer.Log.error(__MODULE__, error)
         {:error, :not_found}
     end
   end

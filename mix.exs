@@ -29,6 +29,7 @@ defmodule Explorer.MixProject do
       {:ecto_sql, "~> 3.10"},
       {:hackney, "~> 1.17"},
       {:jason, "~> 1.2"},
+      {:json_ld, "~> 0.3"},
       {:phoenix, "~> 1.7.6"},
       {:phoenix_ecto, "~> 4.4"},
       {:plug_cowboy, "~> 2.5"},
