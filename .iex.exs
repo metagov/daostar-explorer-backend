@@ -9,4 +9,4 @@ alias Explorer.Activity.AggregateReputation
 
 alias Explorer.Crypto.IPFS
 
-alias Explorer.Services.FetchContribution
+alias Explorer.Services.FetchActivity
