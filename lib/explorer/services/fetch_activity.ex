@@ -2,15 +2,14 @@ defmodule Explorer.Services.FetchActivity do
   alias Explorer.Activity
 
   def perform(eth_address) do
-    with {:ok, _} <- Activity.fetch(eth_address),
-         contributions <- Activity.get_contributions(eth_address),
-         aggregate_reputation <- Activity.get_aggregate_reputation(eth_address) do
-      data = %{
-        contributions: contributions,
-        aggregate_reputation: aggregate_reputation
-      }
+    # Attempt to fetch all activity data, ignore if it fails
+    Activity.fetch(eth_address)
 
-      {:ok, data}
-    end
+    data = %{
+      contributions: Activity.get_contributions(eth_address),
+      aggregate_reputation: Activity.get_aggregate_reputation(eth_address)
+    }
+
+    {:ok, data}
   end
 end
