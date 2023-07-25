@@ -35,11 +35,8 @@ defmodule Explorer.Crypto.Reputable.Fetcher do
       |> Enum.map(fn %{"mapValue" => %{"fields" => fields}} ->
         %{
           issuer: @issuer,
-          issuer_uid: get_in(fields, ["issuerUid", "stringValue"]),
-          # TODO: there's a typo in the JSON being generated.
-          # We're getting "issuerUri:" instead of "issuerUri".
-          # Update this field once the error has been fixed in the other end.
-          issuer_uri: get_in(fields, ["issuerUri:", "stringValue"]),
+          issuer_uid: get_in(fields, ["issuerID", "stringValue"]),
+          issuer_uri: get_in(fields, ["issuerURI", "stringValue"]),
           score: get_in(fields, ["score", "integerValue"]),
           proof: get_in(fields, ["proof", "stringValue"]),
           expiration: get_in(fields, ["expiration", "stringValue"]),
@@ -55,7 +52,7 @@ defmodule Explorer.Crypto.Reputable.Fetcher do
   defp save_or_update(aggregate_reputation) do
     Utils.Enum.map_reject(
       aggregate_reputation,
-      &Activity.create_or_update_aggregate_reputation(&1),
+      &Activity.create_or_update_aggregate_reputation/1,
       &Result.error?/1
     )
     |> Utils.Enum.reduce_results()
