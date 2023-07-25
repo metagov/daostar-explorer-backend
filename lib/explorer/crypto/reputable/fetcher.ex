@@ -11,7 +11,6 @@ defmodule Explorer.Crypto.Reputable.Fetcher do
   alias Explorer.Result
   alias Explorer.Utils
 
-  # TODO: delete this: 0xb7a000c543aC7E39fDf4fC391B3900078E070325
   def perform(user) do
     with {:ok, aggregate_reputation} <- fetch(user),
          {:ok, aggregate_reputation} <- parse(user, aggregate_reputation) do

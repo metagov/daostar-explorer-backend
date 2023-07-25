@@ -25,6 +25,7 @@ defmodule ExplorerWeb.ContributionJSON do
       title: contribution.title,
       description: contribution.description,
       category: contribution.category,
+      proof: contribution.proof,
       date_of_engagement: contribution.date_of_engagement,
       contributors: contribution.contributors,
       contributor_signatures: contribution.contributor_signatures,

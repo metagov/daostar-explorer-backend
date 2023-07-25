@@ -18,6 +18,7 @@ defmodule Explorer.Activity.Contribution do
     field :title, :string
     field :description, :string
     field :category, :string, default: @default_category
+    field :proof, :string
     field :date_of_engagement, :utc_datetime
     field :contributors, {:array, :string}, default: []
     field :contributor_signatures, {:array, :string}, default: []
@@ -46,6 +47,7 @@ defmodule Explorer.Activity.Contribution do
       :title,
       :description,
       :category,
+      :proof,
       :date_of_engagement,
       :contributors,
       :contributor_signatures,
@@ -84,6 +86,7 @@ defmodule Explorer.Activity.Contribution do
       :title,
       :description,
       :category,
+      :proof,
       :date_of_engagement,
       :contributors,
       :contributor_signatures,

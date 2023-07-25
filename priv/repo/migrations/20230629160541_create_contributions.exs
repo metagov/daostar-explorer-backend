@@ -10,6 +10,7 @@ defmodule Explorer.Repo.Migrations.CreateContributions do
       add :title, :string, null: false
       add :description, :text
       add :category, :string, null: false
+      add :proof, :string
       add :metadata, :jsonb
       add :metadata_uri, :string
       add :external, :jsonb

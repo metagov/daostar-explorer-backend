@@ -9,6 +9,7 @@ defmodule Explorer.Crypto.Govrn.Schema.V2RC1 do
     |> Map.put(:metadata, metadata)
     |> Map.put(:title, metadata["title"])
     |> Map.put(:description, metadata["description"])
+    |> Map.put(:proof, metadata["proof"])
     |> Map.put(:date_of_engagement, metadata["dateOfEngagement"])
     |> Map.put(:status, :imported)
     |> Map.put(:contributors, metadata["contributors"] || [])
@@ -22,6 +23,7 @@ defmodule Explorer.Crypto.Govrn.Schema.V2RC1 do
       "title" => params[:title],
       "description" => params[:description],
       "category" => params[:category],
+      "proof" => params[:proof],
       "dateOfEngagement" => params[:date_of_engagement],
       "contributors" => params[:contributors] || [],
       "contributorSignatures" => params[:contributor_signatures] || [],

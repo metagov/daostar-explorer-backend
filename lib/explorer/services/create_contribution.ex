@@ -26,6 +26,7 @@ defmodule Explorer.Services.CreateContribution do
       params["title"],
       params["description"],
       params["category"],
+      params["proof"],
       params["date_of_engagement"],
       params["external"]
     ]
@@ -43,6 +44,7 @@ defmodule Explorer.Services.CreateContribution do
       description: params["description"],
       date_of_engagement: params["date_of_engagement"],
       category: params["category"],
+      proof: params["proof"],
       external: params["external"]
     })
   end
@@ -62,6 +64,7 @@ defmodule Explorer.Services.CreateContribution do
       title: params["title"],
       description: params["description"],
       category: params["category"],
+      proof: params["proof"],
       date_of_engagement: params["dateOfEngagement"],
       contributors: [],
       contributor_signatures: [],
