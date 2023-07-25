@@ -25,6 +25,7 @@ defmodule Explorer.MixProject do
 
   defp deps do
     [
+      {:castore, "~> 1.0"},
       {:cors_plug, "~> 3.0"},
       {:ecto_sql, "~> 3.10"},
       {:hackney, "~> 1.17"},
