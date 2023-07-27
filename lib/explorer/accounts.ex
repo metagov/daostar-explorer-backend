@@ -21,4 +21,13 @@ defmodule Explorer.Accounts do
     |> User.changeset(attrs)
     |> Repo.insert()
   end
+
+  def create_or_update_user(attrs \\ %{}) do
+    %User{}
+    |> User.changeset(attrs)
+    |> Repo.insert(
+      on_conflict: {:replace, Map.keys(attrs)},
+      conflict_target: [:eth_address]
+    )
+  end
 end
