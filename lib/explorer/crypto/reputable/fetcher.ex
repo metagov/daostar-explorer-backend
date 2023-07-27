@@ -1,12 +1,4 @@
 defmodule Explorer.Crypto.Reputable.Fetcher do
-  @endpoint "https://firestore.googleapis.com/v1/projects/reputable-f7202/databases/(default)/documents/completeAttestationURI/"
-  @issuer "reputable"
-
-  use Tesla
-
-  plug Tesla.Middleware.BaseUrl, @endpoint
-  plug Tesla.Middleware.JSON
-
   alias Explorer.Activity
   alias Explorer.Result
   alias Explorer.Utils
@@ -19,7 +11,7 @@ defmodule Explorer.Crypto.Reputable.Fetcher do
   end
 
   defp fetch(user) do
-    case get("/#{user.eth_address}") do
+    case provider().fetch(user) do
       {:ok, %Tesla.Env{status: 200, body: body}} ->
         {:ok, body}
 
@@ -29,25 +21,13 @@ defmodule Explorer.Crypto.Reputable.Fetcher do
     end
   end
 
-  defp parse(user, %{"fields" => %{"reputation" => reputation}}) do
-    parsed_reputation =
-      get_in(reputation, ["arrayValue", "values"])
-      |> Enum.map(fn %{"mapValue" => %{"fields" => fields}} ->
-        %{
-          issuer: @issuer,
-          issuer_uid: get_in(fields, ["issuerID", "stringValue"]),
-          issuer_uri: get_in(fields, ["issuerURI", "stringValue"]),
-          score: get_in(fields, ["score", "integerValue"]),
-          proof: get_in(fields, ["proof", "stringValue"]),
-          expiration: get_in(fields, ["expiration", "stringValue"]),
-          user_id: user.id
-        }
-      end)
-
-    {:ok, parsed_reputation}
+  defp parse(user, data) do
+    provider().parse(user, data)
   end
 
-  defp parse(_, _), do: {:error, :bad_request}
+  defp provider do
+    Explorer.Env.load(__MODULE__, :provider)
+  end
 
   defp save_or_update(aggregate_reputation) do
     Utils.Enum.map_reject(

@@ -27,4 +27,7 @@ config :explorer, :pinata,
   api_secret: {:system, "PINATA_API_SECRET"},
   jwt: {:system, "PINATA_API_JWT"}
 
+config :explorer, Explorer.Crypto.Reputable.Fetcher,
+  provider: Explorer.Crypto.Reputable.Provider.API
+
 import_config "#{config_env()}.exs"
