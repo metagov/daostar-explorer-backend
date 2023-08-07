@@ -19,7 +19,8 @@ daos = [
     name: "MetagovDAO",
     description: "MetagovDAO is a DAO that governs the Metagov project.",
     attestation_issuers: [
-      "https://reputable-attestation.onrender.com/issuerURI"
+      "https://reputable-attestation.onrender.com/issuerURI",
+      "https://daostar-explorer-api.gigalixirapp.com/issuerURIs/govrn"
     ]
   }
 ]

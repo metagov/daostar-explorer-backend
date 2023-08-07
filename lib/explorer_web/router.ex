@@ -14,5 +14,7 @@ defmodule ExplorerWeb.Router do
 
     post "/contributions", ContributionController, :create
     put "/contributions", ContributionController, :update
+
+    get "/issuerURIs/govrn", IssuerURIs.GovrnController, :show
   end
 end
