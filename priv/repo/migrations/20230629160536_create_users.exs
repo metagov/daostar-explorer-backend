@@ -1,4 +1,4 @@
-defmodule Explorer.Repo.Migrations.EnableCitext do
+defmodule Explorer.Repo.Migrations.CreateUsers do
   use Ecto.Migration
 
   def change do

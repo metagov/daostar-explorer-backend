@@ -13,9 +13,31 @@ users = %{
   "0x88e50e06efb2b748e2b9670d2a6668237167382b" => 108
 }
 
+daos = [
+  %{
+    slug: "metagov",
+    name: "MetagovDAO",
+    description: "MetagovDAO is a DAO that governs the Metagov project.",
+    attestation_issuers: [
+      "https://reputable-attestation.onrender.com/issuerURI"
+    ]
+  }
+]
+
 for {eth_address, seller_id} <- users do
   Explorer.Accounts.create_user(%{
     eth_address: eth_address,
     reputable_seller_id: to_string(seller_id)
   })
+end
+
+for dao <- daos do
+  {:ok, %{id: dao_id}} = Explorer.DAOs.create_dao(dao)
+
+  for issuer_uri <- dao[:attestation_issuers] do
+    Explorer.DAOs.create_attestation_issuer(%{
+      dao_id: dao_id,
+      issuer_uri: issuer_uri
+    })
+  end
 end
